@@ -47,7 +47,7 @@ export default function Characterlist() {
     // function for next page button click
     const handleNext = () => {
         if (activePage !== totalPages) {
-            if (!UserName) {
+            if (!UserName && !Location && !Episodes) {
                 getPageChangeData(activePage + 1)
             }
             else {
@@ -59,7 +59,7 @@ export default function Characterlist() {
 
     // function for Previoues page button click
     const handlePrev = () => {
-        if (!UserName) {
+        if (!UserName && !Location && !Episodes) {
             getPageChangeData(activePage - 1)
         }
         else {
