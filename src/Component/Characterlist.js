@@ -141,20 +141,20 @@ export default function Characterlist() {
     }
 
     return (
-        <div className='p-5'>
+        <div className='lg:p-5 xs:p-2'>
             <div className='flex justify-end'>
-                <div>
-                    <input className='p-2 mr-2 w-[315px]' placeholder='Search by Location Name...' onChange={(e) => setLocation(e.target.value)} />
-                    <input className='p-2 mr-2 w-[315px]' placeholder='Search by Episodes Name...' onChange={(e) => setEpisodes(e.target.value)} />
-                    <input className='p-2 mr-2 w-[315px]' placeholder='Search by Character Name...' onChange={(e) => setUserName(e.target.value)} />
+                <div className=''>
+                    <input className='lg:p-2 xs:p-1 xs:m-1 mr-2 xs:w-[260px] lg:w-[315px] placeholder:text-xs rounded-[5px]' placeholder='Search by Location Name...' onChange={(e) => setLocation(e.target.value)} />
+                    <input className='lg:p-2 xs:p-1 xs:m-1 mr-2 xs:w-[260px] lg:w-[315px] placeholder:text-xs rounded-[5px]' placeholder='Search by Episodes Name...' onChange={(e) => setEpisodes(e.target.value)} />
+                    <input className='lg:p-2 xs:p-1  xs:m-1 mr-2 xs:w-[260px] lg:w-[315px] placeholder:text-xs rounded-[5px]' placeholder='Search by Character Name...' onChange={(e) => setUserName(e.target.value)} />
                 </div>
-                <button className='bg-teal-400  w-[90px] h-[37px] rounded-[10px] text-white  text-sm cursor-pointer' onClick={() => handleSearchCharacter(activePage)}>Search</button>
+                <button className='bg-teal-400 xs:w-[200px]  lg:w-[90px] xs:h-[32px] lg:h-[37px] rounded-[10px] text-white  text-sm cursor-pointer' onClick={() => handleSearchCharacter(activePage)}>Search</button>
             </div>
             <div className='grid grid-cols-12 mb-5'>
                 {userlist.map((item) => (
-                    <div key={item.id} className='drop-shadow-lg xl:col-span-2 lg:col-span-3 md:col-span-4 sm:col-span-4 xs:col-span-6 bg-teal-600 m-2 rounded-[15px] cursor-pointer hover:scale-105 hover:bg-green-600 ' onClick={() => getDetails(item.id)}>
+                    <div key={item.id} className='drop-shadow-lg xl:col-span-2 lg:col-span-3 md:col-span-4 sm:col-span-4 xs:col-span-6 bg-teal-600 lg:m-2 xs:m-1 rounded-[15px] cursor-pointer hover:scale-105 hover:bg-green-600 ' onClick={() => getDetails(item.id)}>
                         <div className="xl:p-3 lg:p-3 md:pl-4 sm:p-4 xs:p-3 text-white font-['Open_Sans']">
-                            <img src={item.image} className='h-[200px] rounded-[15px]' />
+                            <img src={item.image} className='lg:h-[200px] xs:h-[170px] rounded-[15px]' />
                             <h1><span className='font-semibold xs:text-sm'>Name:</span> {item.name}</h1>
                             <h2 ><span className='font-semibold xs:text-sm'>Type:</span> <span className='text-sm'>{item.type ? item.type : 'Unknown Type'}</span></h2>
                             <h2><span className='font-semibold  xs:text-sm'>Total Episodes:</span> {item.episode.length}</h2>

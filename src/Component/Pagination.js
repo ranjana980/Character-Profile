@@ -3,7 +3,7 @@ import React from 'react'
 export default function Pagination(props) {
     return (
         <div>
-            <ul className='flex lg:w-[100px] md:w-[10px]'>
+            <ul className='flex lg:w-[100px] md:w-[10px] xs:w-[80px]'>
                 <li>
                     <button disabled={props.activePage == 0} className={`${props.activePage == 0 ? 'bg-gray-400' : 'bg-blue-400'} p-1 rounded-[10px] text-white m-1 text-xs cursor-pointer`} onClick={props.handlePrev}>Prev</button>
                 </li>
