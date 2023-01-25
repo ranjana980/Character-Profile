@@ -85,51 +85,53 @@ export default function Characterlist() {
     }
 
     // function for filter data by character name ,location and episodes
-    const handleSearchCharacter = async () => {
-
+    const handleSearchCharacter = async (page) => {
         if (UserName || Location || Episodes) {
             var urlList = []
+            setUserList(urlList)
             if (UserName) {
-                setUserList(urlList)
                 const result = await axios.get(`https://rickandmortyapi.com/api/character/?name=${UserName}`)
                 result.data.results.map((item) => {
                     if (!urlList.includes(item.url)) {
-                        console.log(item.url)
                         urlList.push(item.url)
                     }
                 })
-              
-
             }
 
             if (Location) {
-                setUserList(urlList)
                 const result1 = await axios.get(`https://rickandmortyapi.com/api/location/?name=${Location}`)
-                result1.data.results[0].residents.map((item) => {
-                    if (!urlList.includes(item)) {
-                        urlList.push(item)
-                    }
+                // console.log(result1.data.results)
+                result1.data.results.map((item1) => {
+                    item1.residents.map((item) => {
+                        if (!urlList.includes(item)) {
+                            urlList.push(item)
+                        }
+                    })
                 })
-                
             }
 
             if (Episodes) {
-                setUserList(urlList)
                 const result2 = await axios.get(`https://rickandmortyapi.com/api/episode/?name=${Episodes}`)
-                result2.data.results[0].characters.map((item) => {
-                    if (!urlList.includes(item)) {
-                        urlList.push(item)
-                    }
+                // console.log(result2.data)
+                result2.data.results.map((item1) => {
+                    item1.characters.map((item) => {
+                        if (!urlList.includes(item)) {
+                            urlList.push(item)
+                        }
+                    })
                 })
-               
+
             }
 
             var count = urlList.length
             var pages = ((urlList.length) / 20)
             var list2 = []
+            setLoader(true)
             for (var i = 0; i < (urlList.length); i++) {
                 const urlres = await axios.get(urlList[i])
-                list2.push(urlres.data)
+                if(i<(page+1)*20 && i>(page)*20){
+                    list2.push(urlres.data)
+                }
             }
             setUserList(list2)
             setTotalCount(count)
@@ -141,7 +143,8 @@ export default function Characterlist() {
                 index++
             }
             setTotalPagesList(list)
-            // setLoader(false)
+            setLoader(false)
+
         }
         else {
             getdata()
@@ -160,7 +163,8 @@ export default function Characterlist() {
                 </div>
                 <button className='bg-teal-400 xs:w-[200px]  lg:w-[90px] xs:h-[32px] lg:h-[37px] rounded-[10px] text-white  text-sm cursor-pointer' onClick={() => handleSearchCharacter(activePage)}>Search</button>
             </div>
-            {loader ? <h1 className='text-xl text-white font-bold text-center mt-10'>Loading...</h1> :
+            {loader ?
+                <h1 className='text-xl text-white font-bold text-center mt-10'>Loading...</h1> :
                 userlist.length > 1 ?
                     <>
                         <div className='grid grid-cols-12 mb-5'>
@@ -185,7 +189,8 @@ export default function Characterlist() {
                             activePage={activePage}
                             handleNext={handleNext}
                             handlePrev={handlePrev}
-                        /></>
+                        />
+                    </>
                     : <h1 className='text-xl text-white font-bold text-center mt-10'>Sorry No Data Found..</h1>}
 
         </div>
