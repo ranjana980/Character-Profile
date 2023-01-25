@@ -2,15 +2,15 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Characterlist from './Component/Characterlist';
-import Character from './Component/Character';
+import Character from './Component/CharacterDetails';
 
 function App() {
   return (
-    <div className=" bg-gray-300">
+    <div className="">
       <BrowserRouter>
         <Routes>
           <Route index path='/' element={<Characterlist />} />
-          <Route path='/Character/:id' element={<Character/>}/>
+          <Route path='/CharacterDetails/:id' element={<Character/>}/>
         </Routes>
       </BrowserRouter>
     </div>
