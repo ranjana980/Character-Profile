@@ -22,26 +22,40 @@ export default function Characterlist() {
     // function for getting data from api when page will be change
     const getPageChangeData = async (page) => {
         setLoader(true)
-        const result = await axios.get(`https://rickandmortyapi.com/api/character?page=${page + 1}`)
-        setUserList(result.data.results)
-        setLoader(false)
+        try {
+            const result = await axios.get(`https://rickandmortyapi.com/api/character?page=${page + 1}`)
+            setUserList(result.data.results)
+            setLoader(false)
+        }
+        catch (err) {
+            console.log(err, 'err')
+            setLoader(false)
+
+        }
     }
 
     // get default all Character List
     const getdata = async () => {
         setLoader(true)
-        const result = await axios.get('https://rickandmortyapi.com/api/character')
-        setUserList(result.data.results)
-        setTotalCount(result.data.info.count)
-        setTotalPages(result.data.info.pages)
-        var list = []
-        var index = 0
-        while (index < result.data.info.pages) {
-            list.push(index + 1)
-            index++
+        try {
+            const result = await axios.get('https://rickandmortyapi.com/api/character')
+            setUserList(result.data.results)
+            setTotalCount(result.data.info.count)
+            setTotalPages(result.data.info.pages)
+            var list = []
+            var index = 0
+            while (index < result.data.info.pages) {
+                list.push(index + 1)
+                index++
+            }
+            setTotalPagesList(list)
+            setLoader(false)
         }
-        setTotalPagesList(list)
-        setLoader(false)
+        catch (err) {
+            setLoader(false)
+            console.log(err)
+        }
+
     }
 
     // function for next page button click
@@ -90,36 +104,50 @@ export default function Characterlist() {
             var urlList = []
             setUserList(urlList)
             if (UserName) {
-                const result = await axios.get(`https://rickandmortyapi.com/api/character/?name=${UserName}`)
-                result.data.results.map((item) => {
-                    if (!urlList.includes(item.url)) {
-                        urlList.push(item.url)
-                    }
-                })
+                try {
+                    const result = await axios.get(`https://rickandmortyapi.com/api/character/?name=${UserName}`)
+                    result.data.results.map((item) => {
+                        if (!urlList.includes(item.url)) {
+                            urlList.push(item.url)
+                        }
+                    })
+                }
+                catch (err) {
+                    console.log(err, 'err')
+
+                }
             }
 
             if (Location) {
-                const result1 = await axios.get(`https://rickandmortyapi.com/api/location/?name=${Location}`)
-                // console.log(result1.data.results)
-                result1.data.results.map((item1) => {
-                    item1.residents.map((item) => {
-                        if (!urlList.includes(item)) {
-                            urlList.push(item)
-                        }
+                try {
+                    const result1 = await axios.get(`https://rickandmortyapi.com/api/location/?name=${Location}`)
+                    result1.data.results.map((item1) => {
+                        item1.residents.map((item) => {
+                            if (!urlList.includes(item)) {
+                                urlList.push(item)
+                            }
+                        })
                     })
-                })
+                }
+                catch (err) {
+                    console.log(err)
+                }
             }
 
             if (Episodes) {
-                const result2 = await axios.get(`https://rickandmortyapi.com/api/episode/?name=${Episodes}`)
-                // console.log(result2.data)
-                result2.data.results.map((item1) => {
-                    item1.characters.map((item) => {
-                        if (!urlList.includes(item)) {
-                            urlList.push(item)
-                        }
+                try {
+                    const result2 = await axios.get(`https://rickandmortyapi.com/api/episode/?name=${Episodes}`)
+                    result2.data.results.map((item1) => {
+                        item1.characters.map((item) => {
+                            if (!urlList.includes(item)) {
+                                urlList.push(item)
+                            }
+                        })
                     })
-                })
+                }
+                catch (err) {
+                    console.log(err)
+                }
 
             }
 
@@ -128,9 +156,14 @@ export default function Characterlist() {
             var list2 = []
             setLoader(true)
             for (var i = 0; i < (urlList.length); i++) {
-                const urlres = await axios.get(urlList[i])
-                if(i<(page+1)*20 && i>(page)*20){
-                    list2.push(urlres.data)
+                try {
+                    const urlres = await axios.get(urlList[i])
+                    if (i < (page + 1) * 20 && i > (page) * 20) {
+                        list2.push(urlres.data)
+                    }
+                }
+                catch (err) {
+                    console.log(err)
                 }
             }
             setUserList(list2)

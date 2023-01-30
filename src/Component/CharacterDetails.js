@@ -12,17 +12,27 @@ export default function CharacterDetails() {
     }, [])
 
     const getFullDetails = async () => {
-        const result = await axios.get(`https://rickandmortyapi.com/api/character/${id}`)
-        setDetails(result.data)
-        getEpisode(result.data.episode)
+        try {
+            const result = await axios.get(`https://rickandmortyapi.com/api/character/${id}`)
+            setDetails(result.data)
+            getEpisode(result.data.episode)
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 
     const getEpisode = async (episode) => {
         var list = []
         var i = 0
         while (i < episode.length) {
-            const result1 = await axios.get(`https://rickandmortyapi.com/api/episode/${i + 1}`)
-            list.push(result1.data.name)
+            try {
+                const result1 = await axios.get(`https://rickandmortyapi.com/api/episode/${i + 1}`)
+                list.push(result1.data.name)
+            }
+            catch (err) {
+                console.log(err)
+            }
             i++
         }
         setEpisodes(list)
